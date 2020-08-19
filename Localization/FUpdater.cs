@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -13,7 +14,7 @@ namespace Localization
 {
     public partial class FUpdater : Form
     {
-        private string programUrl = "https://download-hr.utorrent.com/track/stable/endpoint/utorrent/os/windows";
+        private string programUrl = "https://github.com/aysenuryildiz/testrepo/blob/master/localization_setup.msi?raw=true";
         private string exeName = "switchpro.msi";
         private string downloadsPath = "";
         public FUpdater()
@@ -93,7 +94,9 @@ namespace Localization
             try
             {
                 var msiFilePath = downloadsPath + exeName;
-                System.Diagnostics.Process.Start(msiFilePath);
+                var result = RunInstallMSI(msiFilePath, exeName);
+                //System.Diagnostics.Process.Start(msiFilePath);
+
                 Application.Exit();
             }
             catch (Exception exception)
@@ -102,6 +105,25 @@ namespace Localization
                 throw;
             }
 
+        }
+        public static bool RunInstallMSI(string path, string fileName)
+        {
+            try
+            {
+                Process install  = new Process();
+                install.StartInfo.FileName = "msiexec";
+                //install.StartInfo.Arguments = string.Format("/i \"{0}\"", path);
+
+                install.StartInfo.Arguments = string.Format(" /qb /i \"{0}\" ALLUSERS=1", path);
+                install.Start();
+                install.WaitForExit();
+                return true;
+            }
+            catch(Exception exc)
+            {
+                Console.WriteLine(exc.Message);
+                return false;  //Return False if process ended unsuccessfully
+            }
         }
     }
 }
