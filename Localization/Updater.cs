@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,7 +10,7 @@ namespace Localization
 {
     public static class Updater
     {
-        private static string programUrl = "http://api.denizhanguvenlik.com.tr/version/check?program=kolay_tesvik";
+        private static string programUrl = "https://raw.githubusercontent.com/aysenuryildiz/testrepo/master/newVer";
         public static int check()
         {
             try
@@ -36,6 +37,8 @@ namespace Localization
                 {
                     var localVersion = version.Split('.');
 
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
                     int localMajor = Convert.ToInt32(localVersion[0]);
                     int localMinor = Convert.ToInt32(localVersion[1]);

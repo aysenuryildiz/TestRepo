@@ -19,11 +19,9 @@ namespace Localization
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
             saveVersion();
 
             var result = Updater.check();
-            result = 2;
             switch (result)
             {
                 case 1:
